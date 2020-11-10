@@ -1,6 +1,4 @@
-import random
 import numpy as np
-
 
 class AnyColony(object):
     def __init__(self, height, width, decayRate, numberOfAnts, pheromoneWeighting, timeWeighting):
