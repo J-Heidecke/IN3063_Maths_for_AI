@@ -93,7 +93,7 @@ def shortestpath(graph,start,end,visited=[],distances={},predecessors={}):
     # detect if first time through, set current distance to zero
     if not visited: distances[start]=0
     # if we've found our end node, find the path to it, and return
-    if start==end:
+    if start == end:
         path=[]
         while end != None:
             path.append(end)
