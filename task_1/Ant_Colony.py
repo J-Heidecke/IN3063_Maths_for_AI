@@ -21,8 +21,10 @@ class AnyColony(object):
         # Start and end points for the ants to reach
         self.startIndex = [0, 0]
         self.endIndex = [height-1, width-1]
-        
-        self.shortestPath = []
+
+        #Dictionary that stores the shortest path 
+        self.shortestPath = {"length":0,"path":[] }
+
         #### TESTING ####
         self.generateFixedGrid()
 
@@ -65,6 +67,16 @@ class AnyColony(object):
     # decay the pheromones that were placed in previous generations
     def decayPheromones(self):
         self.pheromoneDeposits = self.decayRate * self.pheromoneDeposits
+
+    def checkPath(self, visitedSquares):
+        pathLength = 0
+        for square in visitedSquares:
+            pathLength += self.grid[square[0], square[1]]
+        
+        if(pathLength < self.shortestPath["length"] or self.shortestPath["length"] == 0):
+            self.shortestPath["length"] = pathLength
+            self.shortestPath["path"] = visitedSquares
+
 
     def run(self):
 
@@ -166,11 +178,16 @@ class AnyColony(object):
                         print (square)
                     hasReachedTheEnd = True
                     self.depositPheromones(visitedSquares)
+                    self.checkPath(visitedSquares)
+                    
                 print("Pheremones")
                 print(self.pheromoneDeposits)
                 print()
             self.decayPheromones()
-                
+        print("\n___________________________")
+        print("Shortest Path")
+        print(self.shortestPath)
+        print("___________________________")
 
             
 
