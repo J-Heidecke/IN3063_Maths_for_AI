@@ -2,7 +2,7 @@ import numpy as np
 
 
 class AnyColony(object):
-    def __init__(self, height, width, decayRate, numberOfAnts, pheromoneWeighting, timeWeighting):
+    def __init__(self, height, width, decayRate, numberOfAnts, pheromoneWeighting, timeWeighting, cutOffPoint):
         self.decayRate = decayRate  # rate at which the pheremones vaporise
         self.numberOfAnts = numberOfAnts  # the number of ants to be used
         
@@ -23,7 +23,12 @@ class AnyColony(object):
         self.endIndex = [height-1, width-1]
 
         #Dictionary that stores the shortest path 
-        self.shortestPath = {"length":0,"path":[] }
+        self.shortestPath = {"generation":0,"length":0,"path":[] }
+
+        self.generationToCompareTo = {"generation":0,"length":0, "path":[]}
+        self.toBreakCycle = False        
+        self.cutOffPoint = cutOffPoint
+        self.currentPoint = 0
 
         #### TESTING ####
         self.generateFixedGrid()
@@ -68,7 +73,8 @@ class AnyColony(object):
     def decayPheromones(self):
         self.pheromoneDeposits = self.decayRate * self.pheromoneDeposits
 
-    def checkPath(self, visitedSquares):
+    # Check if the current path is shorter than the previous path
+    def checkPath(self, visitedSquares, generation):
         pathLength = 0
         for square in visitedSquares:
             pathLength += self.grid[square[0], square[1]]
@@ -76,6 +82,20 @@ class AnyColony(object):
         if(pathLength < self.shortestPath["length"] or self.shortestPath["length"] == 0):
             self.shortestPath["length"] = pathLength
             self.shortestPath["path"] = visitedSquares
+            self.shortestPath["generation"] = generation
+
+    # Will break the cycle earlier if no change happens over cutOffPoint number of generations
+    def checkBreakCycle(self, generation):
+        if(self.shortestPath["length"] == self.generationToCompareTo["length"] and self.generationToCompareTo["length"]!=0):
+            if(self.shortestPath["path"] == self.generationToCompareTo["path"]):
+                self.currentPoint+=1
+                if(self.currentPoint == self.cutOffPoint):
+                    self.toBreakCycle == True
+            else:
+                self.currentPoint == 0
+                self.generationToCompareTo["length"] = self.shortestPath["length"]
+                self.generationToCompareTo["path"] = self.shortestPath["path"]
+                self.generationToCompareTo["generation"] = generation
 
 
     def run(self):
@@ -96,6 +116,12 @@ class AnyColony(object):
             # REPEAT until it reaches the end index
             #
 
+            ########### HAVE NOT FIXED YET ##################
+            if(self.toBreakCycle):
+                print()
+                print("Ended Prematurally as saw no improvement.")
+                print()
+                break
            
             hasReachedTheEnd = False            
             # loop until the ant has reached the end 
@@ -177,8 +203,10 @@ class AnyColony(object):
                     for square in visitedSquares:
                         print (square)
                     hasReachedTheEnd = True
+                    visitedSquares.append(currentPosition)
                     self.depositPheromones(visitedSquares)
-                    self.checkPath(visitedSquares)
+                    self.checkPath(visitedSquares, i)
+                    self.checkBreakCycle(i)
                     
                 print("Pheremones")
                 print(self.pheromoneDeposits)
@@ -193,7 +221,8 @@ class AnyColony(object):
 
 
 
-antColony = AnyColony(10, 10, 0.7, 4, 1, 1)
+# Call the ant colony
+antColony = AnyColony(10, 10, 0.7, 100, 1, 1, 10)
 antColony.run()
 
 # # Arguments

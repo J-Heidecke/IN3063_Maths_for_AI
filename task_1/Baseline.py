@@ -40,12 +40,12 @@ class Baseline():
         # Go down through rows
         while(X != (height-1)):
             X += 1
-            timeSpent += self.graph[X,y]; # Value of field added to total
+            timeSpent += self.graph[X,y] # Value of field added to total
   
         # Go right through columns
         while(y != (width-1)):
             y += 1
-            timeSpent += self.graph[X,y]; # Value of field added to total
+            timeSpent += self.graph[X,y] # Value of field added to total
             
         return timeSpent
 
