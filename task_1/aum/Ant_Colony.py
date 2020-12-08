@@ -102,7 +102,6 @@ class AnyColony(object):
 
         print(self.grid)
         print(self.pheromoneDeposits)
-
         # iteratively go through every generation
         for i in range(self.numberOfAnts):
             currentPosition = self.startIndex
