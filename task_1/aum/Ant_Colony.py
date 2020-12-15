@@ -220,6 +220,7 @@ class AnyColony(object):
 
 
 # Call the ant colony
+# height, width, decayRate, numberOfAnts, pheromoneWeighting, timeWeighting, cutOffPoint
 antColony = AnyColony(10, 10, 0.7, 100, 1, 1, 10)
 antColony.run()
 

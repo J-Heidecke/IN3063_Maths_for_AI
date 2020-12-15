@@ -19,3 +19,8 @@ Solution:
 - maybe start the first one pseudo random:
     - only go right and down
     - or just make it very random
+ 
+ 
+## Comparison
+- ant colony needs many many more iterations to reach the end goal
+- the base line algorithm works with 1000 iterations quickly

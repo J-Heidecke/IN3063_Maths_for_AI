@@ -1,12 +1,14 @@
 import numpy as np
+import time
+import csv
 
 # create a height/width grid
-height = 4
-width = 4
+height = 1000
+width = 1000
 grid = np.random.randint(0, 10, size=(height, width))
 visitedPositions = []  # Visited Positions
 startPosition = [0, 0]
-endPosition = [height-1, width-1]
+endPosition = [height - 1, width - 1]
 
 currentPosition = startPosition
 
@@ -43,6 +45,7 @@ def getAvailablePositions():
     return positions
 
 
+startTimeSeconds = time.time()
 totalTime = 0
 while currentPosition != endPosition:
     availablePositions = getAvailablePositions()
@@ -65,9 +68,16 @@ while currentPosition != endPosition:
 
 visitedPositions.append(currentPosition)
 
+endTimeSeconds = time.time()
+totalTimeSeconds = endTimeSeconds - startTimeSeconds
 print()
 print("Grid:")
 print(grid)
 print("Result:")
-print("Total Time Spent on Squares: ", totalTime)
 print("Path", visitedPositions)
+print("Total Time Spent on Squares: ", totalTime)
+print("Seconds taken to run: ", totalTimeSeconds)
+
+with open('task1_performance.csv', mode='a') as file:
+    csvWriter = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    csvWriter.writerow(['baseline', height, width, totalTime, totalTimeSeconds])
