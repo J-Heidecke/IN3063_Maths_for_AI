@@ -1,6 +1,6 @@
 # IN3063_Maths_for_AI
 
-## Team - Aum Patel & Johannes Heidecke
+## Team - Aum Patel (ACZG8967) & Johannes Heidecke (ACZG146)
 
 Task 1 has been seperated into respective folders for both team members.
 
