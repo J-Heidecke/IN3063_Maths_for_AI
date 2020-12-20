@@ -1,10 +1,16 @@
 # IN3063_Maths_for_AI
 
-## Team - Aum Patel (ACZG8967) & Johannes Heidecke (ACZG146)
+> Team - Aum Patel (ACZG8967) & Johannes Heidecke (ACZG146)
+
+
+
+## Running the code
 
 Task 1 has been seperated into respective folders for both team members.
 
 The python files use python3 with the appropriate libraries installed for the respective tasks (please check the import statements for the libraries)
+
+There is no main file, they are individual python files and individual notebook files.
 
 All the work can be found in the Jupyter Notebooks of each task. The visualizations can be found in the visualization notebooks and in the visualization folder.
 
