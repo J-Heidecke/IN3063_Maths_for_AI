@@ -20,8 +20,8 @@ class Element:
 
 
 # parameters
-height = 15
-width = 15
+height = 10
+width = 10
 start = [0, 0]
 end = [height - 1, width - 1]
 
@@ -114,6 +114,7 @@ while not hasReachedTheEnd:
                     if e.value['position'] == n:  # if the (position = n) as some times they will have identical keys as the key is time
                         if grid[n[0], n[1]] + q[current].value['time'] < e.value['time']:  # if the new one is less
                             addToQueue(n, grid[n[0], n[1]] + q[current].value['time'], prev=q[current].value['position'])
+                            break
                         else:
                             break  # break out of this loop to prevent further searching
     # set the looked at to true for the current node
@@ -126,6 +127,12 @@ path = [finalNode['position']]
 prev = finalNode['prev']
 
 dijkstraNotWork = False
+
+# # DEBUG
+# print("____________QUEUE______________")
+# for e in q:
+#     print(e.value)
+# print("________________________________")
 
 counter = 0
 while not pathCalculated and not dijkstraNotWork:
