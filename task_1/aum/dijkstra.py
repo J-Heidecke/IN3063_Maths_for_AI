@@ -133,6 +133,7 @@ dijkstraNotWork = False
 # for e in q:
 #     print(e.value)
 # print("________________________________")
+print("final:", finalNode)  # time of path will be stored in this, but to get path I will have to traverse
 
 counter = 0
 while not pathCalculated and not dijkstraNotWork:
@@ -157,6 +158,7 @@ if not dijkstraNotWork:
 
     endTimeSeconds = time.time()  # log the time as of ending
     totalTimeSeconds = endTimeSeconds - startTimeSeconds  # calculate total time
+    print('Report:')
     print("final:", finalNode)  # time of path will be stored in this, but to get path I will have to traverse
     print("final path: ", path)
     print("shortest path length: ", finalNode['time'])
