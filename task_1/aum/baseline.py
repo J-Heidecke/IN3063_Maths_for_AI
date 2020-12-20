@@ -3,8 +3,8 @@ import time
 import csv
 
 # create a height/width grid
-height = 1000
-width = 1000
+height = 10
+width = 10
 grid = np.random.randint(0, 10, size=(height, width))
 visitedPositions = []  # Visited Positions
 startPosition = [0, 0]
@@ -80,4 +80,4 @@ print("Seconds taken to run: ", totalTimeSeconds)
 
 with open('task1_performance.csv', mode='a') as file:
     csvWriter = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    csvWriter.writerow(['baseline', height, width, totalTime, totalTimeSeconds])
+    csvWriter.writerow(['baseline', height, width, totalTime, totalTimeSeconds, 1])

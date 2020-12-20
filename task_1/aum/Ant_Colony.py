@@ -1,5 +1,7 @@
 import numpy as np
 import math
+import csv
+import time
 
 
 class AnyColony(object):
@@ -68,9 +70,9 @@ class AnyColony(object):
         for square in visitedSquares:
             pathLength += self.grid[square[0], square[1]]
         print("Path Length: ", pathLength)
-        pheremoneAmount = 15 / (pathLength / len(visitedSquares))
+        pheromoneAmount = 15 / (pathLength / len(visitedSquares))
         for square in visitedSquares:
-            self.pheromoneDeposits[square[0], square[1]] += pheremoneAmount
+            self.pheromoneDeposits[square[0], square[1]] += pheromoneAmount
             print("Pheremone Square = ", self.pheromoneDeposits[square[0], square[1]])
 
     # decay the pheromones that were placed in previous generations
@@ -219,10 +221,18 @@ class AnyColony(object):
         print("___________________________")
 
 
+startTimeSeconds = time.time()  # log the current time as of starting
 # Call the ant colony
 # height, width, decayRate, numberOfAnts, pheromoneWeighting, timeWeighting, cutOffPoint
-antColony = AnyColony(10, 10, 0.7, 100, 1, 1, 10)
+antColony = AnyColony(50, 50, 0.7, 1000, 1, 1, 10)
 antColony.run()
+endTimeSeconds = time.time()  # log the time as of ending
+totalTimeSeconds = endTimeSeconds - startTimeSeconds  # calculate total time
+with open('task1_performance.csv', mode='a') as file:
+    csvWriter = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    if antColony.shortestPath['length'] == 0:
+        antColony.shortestPath['length'] = -1
+    csvWriter.writerow(['ant-colony', antColony.height, antColony.width, antColony.shortestPath['length'], totalTimeSeconds, antColony.numberOfAnts])
 
 # # Arguments
 # decayRate = 0 # rate at which the pheremones vaporise
