@@ -24,23 +24,11 @@ def getAvailablePositions():
     if (height > x >= 0 and width > y >= 0) and not ([x, y] in visitedPositions):
         positions.append([x, y])
 
-    # # Left
-    # x = currentPosition[0] - 1
-    # y = currentPosition[1]
-    # if (height > x >= 0 and width > y >= 0) and not ([x, y] in visitedPositions):
-    #     positions.append([x, y])
-
     # Down
     x = currentPosition[0]
     y = currentPosition[1] + 1
     if (height > x >= 0 and width > y >= 0) and not ([x, y] in visitedPositions):
         positions.append([x, y])
-
-    # # Up
-    # x = currentPosition[0]
-    # y = currentPosition[1] - 1
-    # if (height > x >= 0 and width > y >= 0) and not ([x, y] in visitedPositions):
-    #     positions.append([x, y])
 
     return positions
 
@@ -60,7 +48,7 @@ while currentPosition != endPosition:
             leastPossibleTimePosition = position
     if len(availablePositions) == 0:
         leastPossibleTimePosition = currentPosition
-    # Go to the lowest score
+    # Go to the lowest time position
     visitedPositions.append(currentPosition)
     totalTime += grid[currentPosition[0], currentPosition[1]]
     currentPosition = leastPossibleTimePosition

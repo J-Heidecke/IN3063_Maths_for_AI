@@ -63,7 +63,7 @@ class AnyColony(object):
         print(score)
         return score
 
-    # deposit the appropriate amount of pheremones at the certain position
+    # deposit the appropriate amount of pheromones at the certain position
     def depositPheromones(self, visitedSquares):
         # self.pheromoneDeposits[x, y] = 1 / self.grid[x, y]
         pathLength = 0
@@ -73,7 +73,7 @@ class AnyColony(object):
         pheromoneAmount = 15 / (pathLength / len(visitedSquares))
         for square in visitedSquares:
             self.pheromoneDeposits[square[0], square[1]] += pheromoneAmount
-            print("Pheremone Square = ", self.pheromoneDeposits[square[0], square[1]])
+            print("Pheromone Square = ", self.pheromoneDeposits[square[0], square[1]])
 
     # decay the pheromones that were placed in previous generations
     def decayPheromones(self):
@@ -117,12 +117,10 @@ class AnyColony(object):
             # move to one based on its probability (dont backtrack/unless reaching a dead end)
             # record the square it has gone too (needed to add pheromone values)
             # REPEAT until it reaches the end index
-            #
 
-            ########### HAVE NOT FIXED YET ##################
             if self.toBreakCycle:
                 print()
-                print("Ended Prematurally as saw no improvement.")
+                print("Ended Prematurely as saw no improvement.")
                 print()
                 break
 
@@ -148,11 +146,8 @@ class AnyColony(object):
                 availableSquares = tempSquares
 
                 # Remove squares in visited
-                # for i in range(len(visitedSquares)-1):
-
-                #     availableSquares.pop(i)
                 for square in visitedSquares:
-                    if (square in availableSquares):
+                    if square in availableSquares:
                         availableSquares.remove(square)
 
                 print("Available Squares: ", availableSquares)
@@ -161,7 +156,7 @@ class AnyColony(object):
                 squareScore = []
                 for square in availableSquares:
                     # print("DEBUG\nAvailable Squares:" , availableSquares, "\nSquare:", square, "\n",)
-                    if (square[0] == self.endIndex[0] and square[1] == self.endIndex[1]):
+                    if square[0] == self.endIndex[0] and square[1] == self.endIndex[1]:
                         squareScore.append(10000)
                     else:
                         squareScore.append(
@@ -200,7 +195,7 @@ class AnyColony(object):
 
                 visitedSquares.append(currentPosition)
                 currentPosition = availableSquares[toChoose]
-                if (currentPosition[0] == self.endIndex[0] and currentPosition[1] == self.endIndex[1]):
+                if currentPosition[0] == self.endIndex[0] and currentPosition[1] == self.endIndex[1]:
                     print("\n******************\nANT ", i + 1, " Made it \n*****************")
                     print("Visited Squares")
                     for square in visitedSquares:
@@ -233,37 +228,3 @@ with open('task1_performance.csv', mode='a') as file:
     if antColony.shortestPath['length'] == 0:
         antColony.shortestPath['length'] = -1
     csvWriter.writerow(['ant-colony', antColony.height, antColony.width, antColony.shortestPath['length'], totalTimeSeconds, antColony.numberOfAnts])
-
-# # Arguments
-# decayRate = 0 # rate at which the pheremones vaporise
-# numberOfAnts = 10 #the number of ants used in
-#
-# ## Values used to prioritise either pheromone deposits or time taken on squares
-# pheromoneWeighting = 1
-# distanceWeighting = 1
-#
-#
-# ## Grid
-# height = 10
-# width = 10
-# grid = np.random.randint(0,9,size=(height,width))
-# pheromoneDeposits = np.full((height,width), 0)
-#
-# # Start and end points
-# startIndex = [0,0]
-# endIndex = [height-1, width-1]
-#
-# print(grid) # display the grid
-# print(pheromoneDeposits) # will be filled with 0s as of now
-#
-# def calculateCityScore(x, y):
-#     global pheromoneDeposits, pheromoneWeighting, grid, distance, distanceWeighting
-#     return (pheromoneDeposits[x,y] * pheromoneWeighting) * ((1/grid[x,y])*distanceWeighting)
-#
-# def depositPheromones(x,y):
-#     global pheromoneDeposits
-#     pheromoneDeposits[x,y] = 1/grid[x,y]
-#
-# def decayPheromones():
-#     global pheromoneDeposits
-#     pheromoneDeposits= decayRate*pheromoneDeposits

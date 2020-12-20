@@ -1,27 +1,3 @@
-# 1:function Dijkstra(Graph, source):
-# 2:	for each vertex v in Graph:	// Initialization
-# 3:	    dist[v] := infinity	// initial distance from source to vertex v is set to infinite
-# 4:	    previous[v] := undefined	// Previous node in optimal path from source
-# 5:	dist[source] := 0	// Distance from source to source
-# 6:	Q := the set of all nodes in Graph	// all nodes in the graph are unoptimized - thus are in Q
-# 7:	while Q is not empty:	// main loop
-# 8:	    u := node in Q with smallest dist[ ]
-# 9:	    remove u from Q
-# 10:	    for each neighbor v of u:	// where v has not yet been removed from Q.
-# 11:	        alt := dist[u] + dist_between(u, v)
-# 12:	        if alt < dist[v]	// Relax (u,v)
-# 13:	            dist[v] := alt
-# 14:	            previous[v] := u
-# 15:   return previous[ ]
-
-
-# INITIALISE NODES start = 0; end = inf but with smiley face; everythingElse = inf
-# add {"position", "time", "prev"} into a priority queue, prioritised based on time for every single node
-#   use queue.sort(reverse = true) every time a new element is inserted
-#
-
-# from queue import PriorityQueue
-
 import heapq
 import numpy as np
 import itertools
@@ -36,17 +12,6 @@ class Element:
 
     # overriding a default method to check whether or not two elements are equal
     def __eq__(self, other):
-        # # if the position is equal, then return key, otherwise return false
-        #
-        # if self.value['position'] == other.value['position']:
-        #     return other.key
-        # else:
-        #     # will return false
-        #     return False
-
-        # if self.value['position'] == other.value['position']:
-        #     print('SELF:', self.value)
-        #     print('OTHER:', other.value)
         return self.value['position'] == other.value['position']
 
     # override the comparison operator
@@ -54,17 +19,17 @@ class Element:
         return self.key < other.key
 
 
+# parameters
 height = 15
 width = 15
-grid = np.random.randint(0, 10, size=(height, width))  # create grid
 start = [0, 0]
 end = [height - 1, width - 1]
 
+grid = np.random.randint(0, 10, size=(height, width))  # create grid
+
+# initialise the queue as empty
 q = []  # will store the position, cost, and prev
-counter = itertools.count()  # counter to use as a tie breaker when adding to a heap queue
-
-
-# node = {"position": [0, 0], "time": 0, "prev": [x,y], "lookedAt":False/True}
+# counter = itertools.count()  # counter to use as a tie breaker when adding to a heap queue
 
 
 def addToQueue(position, time, prev=np.inf, lookedAt=False):
@@ -85,7 +50,6 @@ def getNeighbours(currentPosition):
 
     # Left
     x = currentPosition[0] - 1
-    # y = currentPosition[1]
     if height > x >= 0 and width > y >= 0:
         positions.append([x, y])
 
@@ -96,7 +60,6 @@ def getNeighbours(currentPosition):
         positions.append([x, y])
 
     # Up
-    # x = currentPosition[0]
     y = currentPosition[1] - 1
     if height > x >= 0 and width > y >= 0:
         positions.append([x, y])
@@ -108,7 +71,6 @@ startTimeSeconds = time.time()  # log the current time as of starting
 
 # add the start to the queue
 addToQueue(position=start, time=0)
-# print(q[0].value)
 hasReachedTheEnd = False
 finalNode = {}
 
@@ -128,7 +90,6 @@ while not hasReachedTheEnd:
     if q[current].value['lookedAt']:
         print("ERROR: no new element found")
 
-    # do stuff
     # find the neighbours, then add them to the queue
     neighbours = getNeighbours(q[current].value['position'])
 
@@ -155,19 +116,11 @@ while not hasReachedTheEnd:
                             addToQueue(n, grid[n[0], n[1]] + q[current].value['time'], prev=q[current].value['position'])
                         else:
                             break  # break out of this loop to prevent further searching
+    # set the looked at to true for the current node
     q[current].value['lookedAt'] = True
-    # if one of the neighbours was the end, then we should be good to break the loop and calculate a path back from that
-    # if we have found the end, t
-    # add current to looked at
 
-    # loop back to the top if not finished
 
-    # print(q)
-
-# look at neighbors and compare them with any thing in the queue, if there is something smaller when checking, overwrite it.
-
-# how to go to next node: look at the q, and find the smallest path, non-observed node
-
+# calculate the path
 pathCalculated = False
 path = [finalNode['position']]
 prev = finalNode['prev']
@@ -178,6 +131,7 @@ counter = 0
 while not pathCalculated and not dijkstraNotWork:
     counter += 1
 
+    # break out and end the program as there is a bug that prevents dijkstra from reaching the start
     if counter % 10000 == 0:
         # print(path)
         print("please re-run the code")
@@ -204,5 +158,3 @@ if not dijkstraNotWork:
         csvWriter = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         csvWriter.writerow(['dijkstra', height, width, finalNode['time'], totalTimeSeconds, 1])
 
-    # need to traverse backwards to get the final path now
-    # should be able to do in one for loop
